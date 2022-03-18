@@ -1,4 +1,4 @@
-import { Constants } from "eris";
+import { CommandInteraction, Constants, InteractionDataOptionsString } from "eris";
 import { Utils } from "lavacoffee";
 import InteractionStruct from "../../Struct/InteractionStruct";
 import Emojis from "../../Utils/Emojis";
@@ -14,7 +14,7 @@ export default class PlayCommand extends InteractionStruct {
 
     public get options() {
         return [{
-            name: "track_name",
+            name: "track",
             description: "Name of the track which you want to play",
             type: Constants.ApplicationCommandOptionTypes.STRING,
             required: true,
@@ -22,32 +22,34 @@ export default class PlayCommand extends InteractionStruct {
     }
 
     async run({ interaction }: {
-        interaction: any,
-    }): Promise<undefined> {
+        interaction: CommandInteraction,
+    }): Promise<void> {
         await interaction.defer();
-        if (!interaction.member.voiceState.channelID) {
-            return interaction.createFollowup({ content: `${Emojis.error} You need to be in a voice channel before running this command again.` });
+        if (!interaction.member?.voiceState?.channelID) {
+            await interaction.createFollowup({ content: `${Emojis.error} You need to be in a voice channel before running this command again.` });
+            return;
         }
 
         const restMember = await this.client.getRESTGuildMember(
-            interaction.guildID,
+            interaction.guildID!,
             this.client.user.id,
             );
         if (restMember.voiceState.channelID) {
             if (restMember.voiceState.channelID !== interaction.member.voiceState.channelID) {
-                return interaction.createFollowup({ content: `${Emojis.error} You need to connect in <#${restMember.voiceState.channelID}> voice channel to use this command.` });
+                await interaction.createFollowup({ content: `${Emojis.error} You need to connect in <#${restMember.voiceState.channelID}> voice channel to use this command.` });
+                return;
             }
         }
 
-        const arg = interaction.data.options[0].value;
+        const arg = await interaction.data.options![0] as InteractionDataOptionsString;
         const player = this.client.coffee.create({
-            guildID: interaction.guildID,
-            voiceID: interaction.member.voiceState.channelID,
+            guildID: interaction.guildID!,
+            voiceID: interaction.member?.voiceState?.channelID,
             volume: 100,
             selfDeaf: true,
             metadata: {
               text: interaction.channel,
-              voice: interaction.member.voiceState,
+              voice: interaction.member?.voiceState,
             },
         });
 
@@ -55,9 +57,9 @@ export default class PlayCommand extends InteractionStruct {
             player.connect();
         }
 
-        const msg = await interaction.createFollowup({ content: `${Emojis.loading} Loading **${arg}**` });
+        const msg = await interaction.createFollowup({ content: `${Emojis.loading} Loading **${arg?.value}**` });
         const res = await this.client.coffee.search({
-            query: arg,
+            query: arg?.value,
         }, interaction.member);
 
         switch (res.loadType) {
@@ -114,7 +116,5 @@ export default class PlayCommand extends InteractionStruct {
                 }
             break;
         }
-
-        return undefined;
     }
 }
