@@ -1,0 +1,9 @@
+[
+    {
+        "name": "Node 1",
+        "url": "localhost:2333",
+        "password": "youshallnotpass",
+        "secure": false
+    }
+]
+
