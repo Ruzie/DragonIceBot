@@ -1,0 +1,120 @@
+import { Constants } from "eris";
+import { Utils } from "lavacoffee";
+import InteractionStruct from "../../Struct/InteractionStruct";
+import Emojis from "../../Utils/Emojis";
+
+export default class PlayCommand extends InteractionStruct {
+    public get name() {
+        return "play";
+    }
+
+    public get description() {
+        return "Play a track which you want to";
+    }
+
+    public get options() {
+        return [{
+            name: "track_name",
+            description: "Name of the track which you want to play",
+            type: Constants.ApplicationCommandOptionTypes.STRING,
+            required: true,
+        }];
+    }
+
+    async run({ interaction }: {
+        interaction: any,
+    }): Promise<undefined> {
+        await interaction.defer();
+        if (!interaction.member.voiceState.channelID) {
+            return interaction.createFollowup({ content: `${Emojis.error} You need to be in a voice channel before running this command again.` });
+        }
+
+        const restMember = await this.client.getRESTGuildMember(
+            interaction.guildID,
+            this.client.user.id,
+            );
+        if (restMember.voiceState.channelID) {
+            if (restMember.voiceState.channelID !== interaction.member.voiceState.channelID) {
+                return interaction.createFollowup({ content: `${Emojis.error} You need to connect in <#${restMember.voiceState.channelID}> voice channel to use this command.` });
+            }
+        }
+
+        const arg = interaction.data.options[0].value;
+        const player = this.client.coffee.create({
+            guildID: interaction.guildID,
+            voiceID: interaction.member.voiceState.channelID,
+            volume: 100,
+            selfDeaf: true,
+            metadata: {
+              text: interaction.channel,
+              voice: interaction.member.voiceState,
+            },
+        });
+
+        if (player.voiceState !== Utils.PlayerVoiceStates.Connected) {
+            player.connect();
+        }
+
+        const msg = await interaction.createFollowup({ content: `${Emojis.loading} Loading **${arg}**` });
+        const res = await this.client.coffee.search({
+            query: arg,
+        }, interaction.member);
+
+        switch (res.loadType) {
+            case Utils.LoadTypes.LoadFailed:
+                await msg.edit({ content: `${Emojis.error} Failed to load the ${res.tracks.length > 1 ? "playlist" : "track"}` })
+                .catch(() => { });
+
+                if (!player.queue.current) {
+                    player.destroy();
+                }
+            break;
+
+            case Utils.LoadTypes.NoMatches:
+                await msg.edit({ content: `${Emojis.error} No track(s) found about your query. Did you write it correctly?` })
+                .catch(() => { });
+            break;
+
+            case Utils.LoadTypes.TrackLoaded:
+                player.queue.add(res.tracks[0]);
+                await msg.edit({ content: `${Emojis.added} Added **${res.tracks[0].title}** to the queue` })
+                .catch(() => { });
+
+                if (!player.queue.current) {
+                    await player.play();
+                }
+            break;
+
+            case Utils.LoadTypes.PlaylistLoaded:
+                player.queue.add(res.tracks);
+                await msg.edit({ content: `${Emojis.added} Added **${res.tracks.length}** tracks to the queue` })
+                .catch(() => { });
+
+                if (!player.queue.current) {
+                    await player.play();
+                }
+            break;
+
+            case Utils.LoadTypes.SearchResult:
+                player.queue.add(res.tracks[0]);
+                await msg.edit({ content: `${Emojis.added} Added **${res.tracks[0].title}** to the queue` })
+                .catch(() => { });
+
+                if (!player.queue.current) {
+                    await player.play();
+                }
+            break;
+
+            default:
+                await msg.edit({ content: `${Emojis.error} Unknown payload op found.` })
+                .catch(() => { });
+
+                if (!player.queue.current) {
+                    player.destroy();
+                }
+            break;
+        }
+
+        return undefined;
+    }
+}
