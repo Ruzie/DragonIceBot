@@ -1,4 +1,4 @@
-import { Constants } from "eris";
+import { CommandInteraction } from "eris";
 import InteractionStruct from "../../Struct/InteractionStruct";
 import Emojis from "../../Utils/Emojis";
 
@@ -16,7 +16,7 @@ export default class Ping extends InteractionStruct {
     }
 
    async run({ interaction }: {
-       interaction: any
+       interaction: CommandInteraction
    }): Promise<void> {
        await interaction.defer();
        const pre = Date.now();
