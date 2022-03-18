@@ -23,6 +23,7 @@ export default class Ping extends InteractionStruct {
        const msg = await interaction.createFollowup({ content: "Checking ping..." });
        const now = Date.now();
        const diff = now - pre;
-       await msg.edit(`${Emojis.noice} Done! Message edit ping: ${diff}, latency: ${this.client.shards.map((x) => x.latency)}`);
+       await msg.edit(`${Emojis.noice} Done! Message edit ping: ${diff}, latency: ${this.client.shards.map((x) => x.latency)}`)
+       .catch(() => { });
     }
 }
