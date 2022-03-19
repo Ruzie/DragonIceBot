@@ -3,6 +3,10 @@ export default class Emojis {
         return "<:noice:913864505593823272>";
     }
 
+    static get ok(): string {
+        return "<:tick:908622265170686023>";
+    }
+
     static get error(): string {
         return "<:hyperthink:913864534471610368>";
     }
