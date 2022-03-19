@@ -4,15 +4,15 @@ import InteractionStruct from "../../Struct/InteractionStruct";
 import Emojis from "../../Utils/Emojis";
 
 export default class PlayCommand extends InteractionStruct {
-    public get name() {
+    public get name(): string {
         return "play";
     }
 
-    public get description() {
+    public get description(): string {
         return "Play a track which you want to";
     }
 
-    public get options() {
+    public get options(): Array<unknown> {
         return [{
             name: "track",
             description: "Name of the track which you want to play",

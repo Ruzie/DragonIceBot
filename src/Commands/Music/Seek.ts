@@ -1,15 +1,24 @@
-import { CommandInteraction } from "eris";
-import { Utils } from "lavacoffee";
+import { CommandInteraction, Constants, InteractionDataOptionsNumber } from "eris";
+import ms from "ms";
 import InteractionStruct from "../../Struct/InteractionStruct";
 import Emojis from "../../Utils/Emojis";
 
-export default class ResumeCommand extends InteractionStruct {
+export default class SeekCommand extends InteractionStruct {
     public get name(): string {
-        return "resume";
+        return "seek";
     }
 
     public get description(): string {
-        return "Resume the current paused playback";
+        return "Seek the track to a specific time";
+    }
+
+    public get options(): Array<unknown> {
+        return [{
+            name: "time",
+            description: "How much time to seek the track",
+            type: Constants.ApplicationCommandOptionTypes.NUMBER,
+            required: true,
+        }];
     }
 
     async run({ interaction }: {
@@ -38,13 +47,18 @@ export default class ResumeCommand extends InteractionStruct {
             return;
         }
 
-        if (player.state !== Utils.PlayerStates.Paused) {
-            await interaction.createFollowup({ content: `${Emojis.error} Music isn't paused in this server yet.` });
+        const pos = ms((interaction.data.options![0] as InteractionDataOptionsNumber).value);
+
+        if (Number(pos) < 0 || Number(pos) > player.queue.current.duration!) {
+            await interaction.createFollowup({ content: `${Emojis.error} Seeking time must be bigger than **0** and lower than **${player.queue.current.duration}**.` });
             return;
         }
-
-        player.pause(false);
-        await interaction.createFollowup({ content: `${Emojis.ok} Music has been resumed.` });
+        if (typeof pos === "undefined") {
+            await interaction.createFollowup({ content: `${Emojis.error} Invalid time format, can't parse.` });
+            return;
+        }
+        player.seek(Number(pos));
+        await interaction.createFollowup({ content: `${Emojis.ok} Seeked **${ms(Number(pos), { long: true })}**` });
         return;
     }
 }

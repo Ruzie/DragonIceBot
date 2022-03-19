@@ -1,15 +1,14 @@
-import { CommandInteraction } from "eris";
-import { Utils } from "lavacoffee";
+import { CommandInteraction, GuildTextableChannel, InteractionDataOptionsNumber, Message } from "eris";
 import InteractionStruct from "../../Struct/InteractionStruct";
 import Emojis from "../../Utils/Emojis";
 
-export default class ResumeCommand extends InteractionStruct {
+export default class SkipCommand extends InteractionStruct {
     public get name(): string {
-        return "resume";
+        return "skipto";
     }
 
     public get description(): string {
-        return "Resume the current paused playback";
+        return "Skip to a specific track";
     }
 
     async run({ interaction }: {
@@ -37,14 +36,26 @@ export default class ResumeCommand extends InteractionStruct {
             await interaction.createFollowup({ content: `${Emojis.error} No music is playing on this server` });
             return;
         }
-
-        if (player.state !== Utils.PlayerStates.Paused) {
-            await interaction.createFollowup({ content: `${Emojis.error} Music isn't paused in this server yet.` });
+        const trackNum = (interaction.data.options![0] as InteractionDataOptionsNumber).value;
+        if (!trackNum) {
+            await interaction.createFollowup({ content: `${Emojis.error} You need to provide a track number to skip` });
             return;
         }
-
-        player.pause(false);
-        await interaction.createFollowup({ content: `${Emojis.ok} Music has been resumed.` });
+        if (Number.isNaN(trackNum)) {
+            await interaction.createFollowup({ content: `${Emojis.error} Track number must be an integer` });
+            return;
+        }
+        if (trackNum > player.queue.length) {
+            await interaction.createFollowup({ content: `${Emojis.error} Can't skip more than **${player.queue.length}** tracks` });
+            return;
+        }
+        if (trackNum < 2) {
+            await interaction.createFollowup({ content: `${Emojis.error} Can't skip to the first track, for that use skip instead` });
+            return;
+        }
+        player.queue.remove(0, trackNum - 1);
+        player.stop();
+        await interaction.createFollowup({ content: `${Emojis.ok} Skipped to track number **${trackNum}**` });
         return;
     }
 }

@@ -1,15 +1,14 @@
-import { CommandInteraction } from "eris";
-import { Utils } from "lavacoffee";
+import { CommandInteraction, GuildTextableChannel, Message } from "eris";
 import InteractionStruct from "../../Struct/InteractionStruct";
 import Emojis from "../../Utils/Emojis";
 
-export default class ResumeCommand extends InteractionStruct {
+export default class SkipCommand extends InteractionStruct {
     public get name(): string {
-        return "resume";
+        return "skip";
     }
 
     public get description(): string {
-        return "Resume the current paused playback";
+        return "Skip the current track";
     }
 
     async run({ interaction }: {
@@ -37,14 +36,10 @@ export default class ResumeCommand extends InteractionStruct {
             await interaction.createFollowup({ content: `${Emojis.error} No music is playing on this server` });
             return;
         }
-
-        if (player.state !== Utils.PlayerStates.Paused) {
-            await interaction.createFollowup({ content: `${Emojis.error} Music isn't paused in this server yet.` });
-            return;
-        }
-
-        player.pause(false);
-        await interaction.createFollowup({ content: `${Emojis.ok} Music has been resumed.` });
+        const track = player.queue.current.title;
+        player.stop();
+        await interaction.createFollowup({ content: `${Emojis.ok} Skipped **${track}**` });
+        // Call the grabarge collector instead setting something horrible in track string
         return;
     }
 }

@@ -2,7 +2,7 @@ import { CommandInteraction, Constants, InteractionDataOptionsNumber } from "eri
 import InteractionStruct from "../../Struct/InteractionStruct";
 import Emojis from "../../Utils/Emojis";
 
-export default class PauseCommand extends InteractionStruct {
+export default class RemoveCommand extends InteractionStruct {
     public get name(): string {
         return "remove";
     }

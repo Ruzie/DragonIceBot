@@ -3,13 +3,13 @@ import { CoffeeTrack, Utils } from "lavacoffee";
 import InteractionStruct from "../../Struct/InteractionStruct";
 import Emojis from "../../Utils/Emojis";
 
-export default class PauseCommand extends InteractionStruct {
+export default class ReplayCommand extends InteractionStruct {
     public get name(): string {
-        return "pause";
+        return "replay";
     }
 
     public get description(): string {
-        return "Pause the current playback";
+        return "Replay the current playback";
     }
 
     async run({ interaction }: {
