@@ -50,46 +50,46 @@ export default class RichEmbed {
         proxyIconURL?: string;
     } | undefined;
 
-    public constructor(data: EmbedDataStyle, skipValidation = true) {
+    public constructor(data?: EmbedDataStyle, skipValidation = true) {
         this.setup(data, skipValidation);
     }
 
-    public setup(data: EmbedDataStyle, skipValidation?: boolean): void {
+    public setup(data?: EmbedDataStyle, skipValidation?: boolean): void {
         this.type = data?.type ?? "rich";
         this.title = data?.title ?? undefined;
-        this.description = data.description ?? undefined;
-        this.url = data.url ?? undefined;
-        this.color = "color" in data ? EmbedUtil.resolveColor(data.color!) : undefined;
-        this.timestamp = new Date(data.timestamp).getTime();
+        this.description = data?.description ?? undefined;
+        this.url = data?.url ?? undefined;
+        this.color = "color" in data! ? EmbedUtil.resolveColor(data.color!) : undefined;
+        this.timestamp = new Date(data!.timestamp).getTime();
         this.fields = [];
-        if (data.fields) {
-            this.fields = skipValidation ? data.fields.map(EmbedUtil.cloneObject)
+        if (data?.fields) {
+            this.fields = skipValidation ? data?.fields.map(EmbedUtil.cloneObject)
             // @ts-ignore: NormalizeFields
             : this.constructor.normalizeFields(data.fields);
         }
-        this.thumbnail = data.thumbnail ? {
+        this.thumbnail = data?.thumbnail ? {
             url: data.thumbnail?.url ?? undefined,
             proxyURL: data.thumbnail?.proxyURL ?? data.thumbnail?.proxy_url ?? undefined,
             height: data.thumbnail?.height ?? undefined,
             width: data.thumbnail?.width ?? undefined,
         } : undefined;
-        this.image = data.image ? {
+        this.image = data?.image ? {
           url: data.image?.url ?? undefined,
           proxyURL: data.image?.proxyURL ?? data.image?.proxy_url ?? undefined,
           height: data.image?.height ?? undefined,
           width: data.image?.width ?? undefined,
         } : undefined;
-        this.author = data.author ? {
+        this.author = data?.author ? {
           name: data.author?.name ?? undefined,
           url: data.author?.url ?? undefined,
           iconURL: data.author?.iconURL ?? data.author?.icon_url ?? undefined,
           proxyIconURL: data.author?.proxyIconURL ?? data.author?.proxy_icon_url ?? undefined,
         } : undefined;
-        this.provider = data.provider ? {
+        this.provider = data?.provider ? {
           name: data.provider?.name ?? undefined,
           url: data.provider?.name ?? undefined,
         } : undefined;
-        this.footer = data.footer ? {
+        this.footer = data?.footer ? {
           text: data.footer?.text ?? undefined,
           iconURL: data.footer?.iconURL ?? data.footer?.icon_url ?? undefined,
           proxyIconURL: data.footer?.proxyIconURL ?? data.footer?.proxy_icon_url ?? undefined,
