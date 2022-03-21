@@ -3,8 +3,8 @@ export interface EmbedDataStyle {
     title?: string,
     description?: string,
     url?: string,
-    color?: string | number,
-    timestamp: string | number | Date,
+    color: string | number,
+    timestamp: number | Date,
     fields?: Array<{ name: string, value: string }>,
     thumbnail?: {
         url?: string,
