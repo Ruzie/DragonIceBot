@@ -1,11 +1,11 @@
 import { readdirSync } from "fs";
-import { Client } from "eris";
+import { Client, UnknownInteraction, CommandInteraction } from "eris";
 import { EventEmitter } from "events";
 import { resolve } from "path";
 import ExtraCollection from "../Utils/Collection";
 import Logger from "../Utils/Logger";
 
-export default class SlashManager extends EventEmitter {
+export default class InteractionManager extends EventEmitter {
     public client: Client;
 
     public commands: ExtraCollection;
@@ -20,7 +20,7 @@ export default class SlashManager extends EventEmitter {
         this.commands = new ExtraCollection();
         this.built = false;
         this.on("error", (error: unknown) => console.log(error));
-        this.client.on("interactionCreate", (interaction) => this.exec(interaction));
+        this.client.on("interactionCreate", (interaction: CommandInteraction) => this.exec(interaction));
     }
 
     public async build(): Promise<this> {
@@ -52,7 +52,14 @@ export default class SlashManager extends EventEmitter {
     }
 
     public register(guildID?: string): void {
-        const commands = this.commands.map((cmd: any) => cmd.interactionData);
+        const commands = this.commands.map((cmd: {
+            interactionData: {
+                name: string,
+                description: string,
+                options: unknown,
+            };
+        }) => cmd.interactionData);
+
         if (guildID) {
             this.client.bulkEditGuildCommands(guildID, commands);
             Logger.success(`${this.constructor.name}: Registered guild commands.`);
@@ -62,12 +69,17 @@ export default class SlashManager extends EventEmitter {
         }
     }
 
-    public async exec(interaction: any) {
+    public async exec(interaction: CommandInteraction) {
+        let failedCmd;
         try {
             const command = this.commands.get(interaction.data.name);
+            failedCmd = command.name;
             Logger.success(`${this.constructor.name}: Executing command ${command.name}`);
             await command.run({ interaction });
         } catch (error) {
+            if (error instanceof UnknownInteraction) {
+                Logger.error(`Interaction failed when executing: ${failedCmd}`);
+            }
             Logger.error(error);
         }
     }
