@@ -2,7 +2,7 @@ import { CommandInteraction, GuildTextableChannel, InteractionDataOptionsNumber,
 import InteractionStruct from "../../Struct/InteractionStruct";
 import Emojis from "../../Utils/Emojis";
 
-export default class SkipCommand extends InteractionStruct {
+export default class SkipToCommand extends InteractionStruct {
     public get name(): string {
         return "skipto";
     }
