@@ -14,7 +14,7 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "indent": [0, "tab"],
+        "indent": ["off", "tab"],
         "semi": ["error", "always"],
         "quotes": ["error", "double"],
         "no-unused-vars": "off",
@@ -23,6 +23,10 @@
         "no-restricted-syntax": "off",
         "class-methods-use-this": "off",
         "global-require": "off",
-        "new-cap": "off"
+        "new-cap": "off",
+        "no-shadow": "off",
+        "no-param-reassign": "off",
+        "no-bitwise": "off",
+        "no-plusplus": "off"
     }
 }
