@@ -4,42 +4,58 @@ export default class Emojis {
     }
 
     static get ok(): string {
-        return "<:tick:908622265170686023>";
+        return ":white_check_mark:";
     }
 
     static get error(): string {
-        return "<:hyperthink:913864534471610368>";
+        return ":x:";
     }
 
     static get ahsad(): string {
         return "<:SadCat:913864830266527785>";
     }
 
-    static get startmusic(): string {
+    public static get startmusic(): string {
         return "<:coolthonk:913864333958721589>";
     }
 
-    static get loading(): string {
+    public static get loading(): string {
         return "<:10pcuckfish:913864006094168084>";
     }
 
-    static get added(): string {
+    public static get added(): string {
         return "<:pepeyep:913864664381812736>";
     }
 
-    static get nowPlaying(): string {
+    public static get nowPlaying(): string {
         return ":cheese:";
     }
 
-    static get queueDia(): string {
+    public static get queueDia(): string {
         return ":small_orange_diamond:";
     }
 
-    static get queueList() {
+    public static get queueList(): string {
         return ":stars:";
     }
 
-    static get color(): string {
+    public static get guildJoined(): string {
+        return ":inbox_tray:";
+    }
+
+    public static get musicHelp(): string {
+        return ":notes:";
+    }
+
+    public static get question(): string {
+        return ":question:";
+    }
+
+    public static get timeOver(): string {
+        return ":timer:";
+    }
+
+    public static get color(): string {
         return "#a573ce";
     }
 }
