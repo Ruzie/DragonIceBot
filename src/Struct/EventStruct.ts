@@ -26,7 +26,7 @@ export default abstract class EventStruct extends EventEmitter {
         this.on("error", (error: unknown) => console.log(error));
     }
 
-    exec(...args: any | any[]) {
+    exec(...args: Array<unknown>) {
         this.run(...args)
         .catch((error: unknown) => this.emit("error", error));
     }
