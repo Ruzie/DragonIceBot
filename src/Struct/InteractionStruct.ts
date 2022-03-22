@@ -29,11 +29,11 @@ export default abstract class InteractionStruct {
         this.accessDescription = value;
     }
 
-    public get options(): any | undefined {
+    public get options(): Array<unknown> | undefined {
         return this.accessOptions;
     }
 
-    public set options(value: Array<any>) {
+    public set options(value: Array<unknown> | undefined) {
         this.accessOptions = value;
     }
 
