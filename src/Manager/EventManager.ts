@@ -23,7 +23,7 @@ export default class EventManager {
         // eslint-disable-next-line no-restricted-syntax
         for (const event of events) {
             // eslint-disable-next-line import/no-dynamic-require
-            const nevent: any = new (require(`../Listeners/${event}`).default)(this.client);
+            const nevent = new (require(`../Listeners/${event}`).default)(this.client);
             const exec = nevent.exec.bind(nevent);
             nevent.once
             ? this.client.once(nevent.name, nevent.exec.bind(nevent))
