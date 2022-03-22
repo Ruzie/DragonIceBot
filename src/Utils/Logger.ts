@@ -14,4 +14,8 @@ export default class Logger {
     static preload(text: string | unknown): void {
         console.log("\x1b[93m%s\x1b[0m", text);
     }
+
+    static debug(text: string | unknown): void {
+        console.log("\x1b[97m%s\x1b[0m", text);
+    }
 }
