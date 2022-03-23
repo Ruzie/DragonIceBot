@@ -22,12 +22,13 @@ export default class AboutCommand extends InteractionStruct {
        .setDescription(`
 \n ${Emojis.about} **__${this.client.user.username} stats__**\`\`\`apache
 • Servers: ${this.client.guilds.size}
-• Idle Players: ${this.client.coffee.players.size}
+• IdlePlayers: ${this.client.coffee.players.size}
 • RSS: ${(memoryUsage().rss / 1000 / 1000).toFixed(2)} MiB
-• Heap Total: ${(memoryUsage().heapTotal / 1000 / 1000).toFixed(2)} MiB
-• Heap Used: ${(memoryUsage().heapUsed / 1000 / 1000).toFixed(2)} MiB
+• HeapTotal: ${(memoryUsage().heapTotal / 1000 / 1000).toFixed(2)} MiB
+• HeapUsed: ${(memoryUsage().heapUsed / 1000 / 1000).toFixed(2)} MiB
 • External: ${(memoryUsage().external / 1000 / 1000).toFixed(2)} MiB
 • ArrayBuffers: ${(memoryUsage().arrayBuffers / 1000 / 1000).toFixed(2)} MiB
+• BotVersion: v2.0-beta
 • Library: Eris v${VERSION}
 • Framework: Custom
 • Node.js: ${version}
