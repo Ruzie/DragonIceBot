@@ -1,4 +1,4 @@
-import { CommandInteraction, GuildTextableChannel, InteractionDataOptionsNumber, Message } from "eris";
+import { CommandInteraction, InteractionDataOptionsNumber } from "eris";
 import InteractionStruct from "../../Struct/InteractionStruct";
 import Emojis from "../../Utils/Emojis";
 

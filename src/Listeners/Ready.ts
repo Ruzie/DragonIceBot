@@ -15,11 +15,11 @@ import Emojis from "../Utils/Emojis";
 import type { ExportedTrack } from "../Typings/Track";
 
 export default class Ready extends EventManager {
-    public get name() {
+    public get name(): string {
         return "ready";
     }
 
-    public get once() {
+    public get once(): boolean {
         return true;
     }
 

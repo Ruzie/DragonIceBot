@@ -47,8 +47,8 @@ export default class VolumeCommand extends InteractionStruct {
         }
         const level = (interaction.data.options![0] as InteractionDataOptionsNumber).value;
 
-        if (Number(level) < 0 || Number(level) > 200) {
-            await interaction.createFollowup({ content: `${Emojis.error} Volume must be lower than \`200\` and higher than \`0\`.` });
+        if (Number(level) < 0 || Number(level) > 150) {
+            await interaction.createFollowup({ content: `${Emojis.error} Volume must be lower than \`150\` and higher than \`0\`.` });
             return;
         }
 

@@ -2,11 +2,11 @@ import type { VoiceServerUpdate, VoiceStateUpdate } from "../Typings/Packets";
 import EventManager from "../Manager/EventManager";
 
 export default class RawWS extends EventManager {
-    public get name() {
+    public get name(): string {
         return "rawWS";
     }
 
-    public get once() {
+    public get once(): boolean {
         return false;
     }
 

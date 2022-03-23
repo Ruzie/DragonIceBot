@@ -19,7 +19,7 @@ export default class GuildDelete extends EventManager {
         );
         try {
             (await channel as GuildTextableChannel | PrivateChannel)
-            .createMessage({ content: `${Emojis.guildJoined} I have been removed from guild name: **${guild.name}**, ID: **${guild.id}**, and all members were: **${guild.memberCount}**` });
+            .createMessage({ content: `${Emojis.guildRemoved} I have been removed from guild name: **${guild.name}**, ID: **${guild.id}**, and all members were: **${guild.memberCount}**` });
         } catch (e: unknown) {
             Logger.error(e);
         }

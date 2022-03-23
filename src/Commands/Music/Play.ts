@@ -41,7 +41,7 @@ export default class PlayCommand extends InteractionStruct {
             }
         }
 
-        const arg = await interaction.data.options![0] as InteractionDataOptionsString;
+        const arg = (interaction.data.options![0] as InteractionDataOptionsString).value;
         const player = this.client.coffee.create({
             guildID: interaction.guildID!,
             voiceID: interaction.member?.voiceState?.channelID,
@@ -57,9 +57,9 @@ export default class PlayCommand extends InteractionStruct {
             player.connect();
         }
 
-        const msg = await interaction.createFollowup({ content: `${Emojis.loading} Loading **${arg?.value}**` });
+        const msg = await interaction.createFollowup({ content: `${Emojis.loading} Loading **${arg}**` });
         const res = await this.client.coffee.search({
-            query: arg?.value,
+            query: arg,
         }, interaction.member);
 
         switch (res.loadType) {

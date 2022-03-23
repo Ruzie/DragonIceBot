@@ -3,15 +3,15 @@ export default class Emojis {
         return "<:noice:913864505593823272>";
     }
 
-    static get ok(): string {
+    public static get ok(): string {
         return ":white_check_mark:";
     }
 
-    static get error(): string {
+    public static get error(): string {
         return ":x:";
     }
 
-    static get ahsad(): string {
+    public static get ahsad(): string {
         return "<:SadCat:913864830266527785>";
     }
 
@@ -43,6 +43,10 @@ export default class Emojis {
         return ":inbox_tray:";
     }
 
+    public static get guildRemoved(): string {
+        return ":outbox_tray:";
+    }
+
     public static get musicHelp(): string {
         return ":notes:";
     }
@@ -53,6 +57,26 @@ export default class Emojis {
 
     public static get timeOver(): string {
         return ":timer:";
+    }
+
+    public static get perform(): string {
+        return ":performing_arts:";
+    }
+
+    public static get about(): string {
+        return ":penguin:";
+    }
+
+    public static get support(): string {
+        return ":banana:";
+    }
+
+    public static get invite(): string {
+        return ":heart:";
+    }
+
+    public static get vote(): string {
+        return ":metal:";
     }
 
     public static get color(): string {

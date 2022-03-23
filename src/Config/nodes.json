@@ -1,9 +1,14 @@
 [
     {
         "name": "Node 1",
-        "url": "localhost:2333",
-        "password": "youshallnotpass",
+        "url": "lavalink.islantay.tk:8880",
+        "password": "waifufufufu",
+        "secure": false
+    },
+    {
+        "name": "Node 2",
+        "url": "lava.link:80",
+        "password": "lavalink",
         "secure": false
     }
 ]
-

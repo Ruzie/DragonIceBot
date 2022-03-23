@@ -37,20 +37,12 @@ export default class ReplayCommand extends InteractionStruct {
             await interaction.createFollowup({ content: `${Emojis.error} No music is playing on this server` });
             return;
         }
-
-        try {
-            player.node.send({
-                op: Utils.OpCodes.Play,
-                guildId: interaction.guildID!,
-                track: (player.queue.current as CoffeeTrack)?.base64 ?? undefined,
-                startTime: player.position,
-                pause: player.state === Utils.PlayerStates.Paused,
-            });
-            await interaction.createFollowup({ content: `${Emojis.ok} Replaying now.` });
-            return;
-        } catch {
-            await interaction.createFollowup({ content: `${Emojis.error} Failed to replay the track, something went wrong.` });
+        if (player.state === Utils.PlayerStates.Paused) {
+            await interaction.createFollowup({ content: `${Emojis.error} Music is paused, please resume it before running this command.` });
             return;
         }
+        player.seek(0);
+        await interaction.createFollowup({ content: `${Emojis.ok} Replaying now, from starting of current track.` });
+        return;
     }
 }

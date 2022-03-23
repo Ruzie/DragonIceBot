@@ -5,6 +5,7 @@ import { env } from "process";
 import type { CoffeeLava } from "lavacoffee";
 import Logger from "./Utils/Logger";
 import EventManager from "./Manager/EventManager";
+import "./Utils/Errors";
 
 config({ path: resolve(".", ".env") });
 

@@ -2,17 +2,13 @@ import { CommandInteraction } from "eris";
 import InteractionStruct from "../../Struct/InteractionStruct";
 import Emojis from "../../Utils/Emojis";
 
-export default class Ping extends InteractionStruct {
-    public get name() {
+export default class PingCommand extends InteractionStruct {
+    public get name(): string {
         return "ping";
     }
 
-    public get description() {
+    public get description(): string {
         return "Shows ping pong";
-    }
-
-    public get options() {
-        return [];
     }
 
    async run({ interaction }: {
@@ -23,7 +19,7 @@ export default class Ping extends InteractionStruct {
        const msg = await interaction.createFollowup({ content: "Checking ping..." });
        const now = Date.now();
        const diff = now - pre;
-       await msg.edit(`${Emojis.noice} Done! Message edit ping: ${diff}, latency: ${this.client.shards.map((x) => x.latency)}`)
+       await msg.edit(`${Emojis.noice} Done! Interaction edit ping: ${diff}, latency: ${this.client.shards.map((x) => x.latency)}`)
        .catch(() => { });
     }
 }
