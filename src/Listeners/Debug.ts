@@ -12,7 +12,7 @@ export default class Debug extends EventManager {
     }
 
     async exec(data: unknown): Promise<void> {
-        if (env.DEV) {
+        if (env.DEV === "yes") {
             Logger.debug(data);
         }
     }
