@@ -1,5 +1,10 @@
+import {
+    Client,
+    UnknownInteraction,
+    CommandInteraction,
+    VoiceChannel,
+} from "eris";
 import { readdirSync } from "fs";
-import { Client, UnknownInteraction, CommandInteraction, VoiceChannel } from "eris";
 import { EventEmitter } from "events";
 import { resolve } from "path";
 import { env } from "process";
