@@ -76,7 +76,7 @@ export default class QueueCommand extends InteractionStruct {
                 `,
                 );
             const maxPages = Math.ceil(player.queue.length / multiple);
-            embed.addField("\n", `Page ${page > maxPages ? maxPages : page} of ${maxPages}`);
+            embed.addField("(:", `Page ${page > maxPages ? maxPages : page} of ${maxPages}`);
 
             await interaction.createFollowup({ embeds: [embed as EmbedOptions] });
         } catch (e: unknown) {
